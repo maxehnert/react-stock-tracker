@@ -1,5 +1,49 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var routes = require('./config/routes');
+'use strict';
 
-ReactDOM.render(routes, document.getElementById('app'));
+const Hapi = require('hapi');
+const Good = require('good');
+
+const server = new Hapi.Server();
+server.connection({ port: 3000 });
+
+server.route({
+    method: 'GET',
+    path: '/',
+    handler: function (request, reply) {
+        reply('Hello, world!');
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/{name}',
+    handler: function (request, reply) {
+        reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
+    }
+});
+
+server.register({
+    register: Good,
+    options: {
+        reporters: [{
+            reporter: require('good-console'),
+            events: {
+                response: '*',
+                log: '*'
+            }
+        }]
+    }
+}, (err) => {
+
+    if (err) {
+        throw err; // something bad happened loading the plugin
+    }
+
+    server.start((err) => {
+
+        if (err) {
+           throw err;
+        }
+        server.log('info', 'Server running at: ' + server.info.uri);
+    });
+});

@@ -15,9 +15,8 @@
     "good-console": "^5.3.1",
     "hapi": "^13.3.0",
     "joi": "^8.0.5",
-    "react": "^0.14.6",
-    "react-dom": "^0.14.6",
-    "react-router": "^2.0.0-rc5",
+    "mongojs": "^2.3.0",
+    "node-uuid": "^1.4.7",
     "x-ray": "^2.0.3"
   },
   "devDependencies": {

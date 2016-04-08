@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.9.1",
+    "boom": "^3.1.2",
     "good": "^6.6.0",
     "good-console": "^5.3.1",
     "hapi": "^13.3.0",

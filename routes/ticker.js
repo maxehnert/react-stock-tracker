@@ -54,18 +54,18 @@ exports.register = function(server, options, next) {
     path: '/ticker',
     handler: function(request, reply) {
 
-      const res = request.payload;
+      const stock = request.payload;
 
       //Create an id
-      res._id = uuid.v1();
+      stock._id = uuid.v1();
 
-      stocks.save(res, (err, result) => {
+      stocks.save(stock, (err, result) => {
 
         if (err) {
           return reply(Boom.badData('Internal MongoDB error', err));
         }
 
-        reply(res);
+        reply(stock);
       });
     },
     config: {

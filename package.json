@@ -8,7 +8,7 @@
     "prod": "webpack -p"
   },
   "author": "",
-  "license": "ISC",
+  "license": "",
   "dependencies": {
     "axios": "^0.9.1",
     "boom": "^3.1.2",
@@ -17,6 +17,7 @@
     "hapi": "^13.3.0",
     "joi": "^8.0.5",
     "mongojs": "^2.3.0",
+    "mongoose": "^4.4.14",
     "node-uuid": "^1.4.7",
     "x-ray": "^2.0.3"
   },

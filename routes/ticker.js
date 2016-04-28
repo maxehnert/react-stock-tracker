@@ -4,6 +4,9 @@ const Boom = require('boom');
 const uuid = require('node-uuid');
 const Joi = require('joi');
 
+var Xray = require("x-ray");
+var xray = new Xray();
+
 exports.register = function(server, options, next) {
 
   const db = server.app.db;
@@ -14,15 +17,23 @@ exports.register = function(server, options, next) {
     path: '/ticker',
     handler: function(request, reply) {
 
-      stocks.find((err, docs) => {
+      // stocks.find((err, docs) => {
 
-        if (err) {
-          return reply(Boom.badData('Internal MongoDB error', err));
-        }
+      //   if (err) {
+      //     return reply(Boom.badData('Internal MongoDB error', err));
+      //   }
 
-        reply(docs);
-      });
-
+      //   reply(docs);
+      // });
+reply(xray('http://finance.yahoo.com/q/op?s=FB+Options', '.quote-table-overflow tr td a',
+  [{
+    option: '', //innerHTML
+    href: '@href',
+    prices : xray(
+      '.quote-table-overflow tr td .option-entry'
+    )
+  }]
+))
     }
   });
 
@@ -45,7 +56,6 @@ exports.register = function(server, options, next) {
 
         reply(doc);
       });
-
     }
   });
 

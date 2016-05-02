@@ -13,11 +13,11 @@ const sss = (ticker, expiration) => {
   xray(`http://finance.yahoo.com/q/op?s=${ticker}+Options&date=${expiration}`, {
     stockLast: xray('.time_rtq_ticker span'),
     allExpiration: xray('.Start-0 option',
-      [{
+        [{
         unixEpoch: '@value',
         readableValue: ''
       }]),
-    currentExpiration: xray('.Start-0 option'),
+    currentExpiration: [expiration],
     calls: xray('#optionsCallsTable .quote-table-overflow tr', 
       [{
         strikeValue: xray('td:nth-child(1) a  | trim'),
@@ -45,8 +45,16 @@ const sss = (ticker, expiration) => {
       }]
     ),
   })
-  .write('results.json');
-
+  // .write('results.json');
+  (function(err, data) {
+    console.log('exp', expiration); // this works
+    if (data) {
+      // return data;
+      console.log(data);
+    } else {
+      console.log(err);
+    }
+  })
 };
 
 const loopExp = (ticker) => {

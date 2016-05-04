@@ -3,7 +3,7 @@
 const Boom = require('boom');
 const uuid = require('node-uuid');
 const Joi = require('joi');
-
+const loopExp = require('../app').tickerScrape;
 var Xray = require("x-ray");
 var xray = new Xray();
 
@@ -17,45 +17,38 @@ exports.register = function(server, options, next) {
     path: '/ticker',
     handler: function(request, reply) {
 
-      // stocks.find((err, docs) => {
-
-      //   if (err) {
-      //     return reply(Boom.badData('Internal MongoDB error', err));
-      //   }
-
-      //   reply(docs);
-      // });
-reply(xray('http://finance.yahoo.com/q/op?s=FB+Options', '.quote-table-overflow tr td a',
-  [{
-    option: '', //innerHTML
-    href: '@href',
-    prices : xray(
-      '.quote-table-overflow tr td .option-entry'
-    )
-  }]
-))
     }
   });
 
   server.route({
     method: 'GET',
     path: '/ticker/{id}',
+    config: {
+      validate: {
+        query: {
+          ticker: Joi.string().alphanum(),
+        },
+      },
+    },
     handler: function(request, reply) {
+      console.log('asdf', request.params.id);
+       reply (
+        loopExp(request.params.id)
+        );
+      // stocks.findOne({
+      //   _id: request.params.id
+      // }, (err, doc) => {
 
-      stocks.findOne({
-        _id: request.params.id
-      }, (err, doc) => {
+      //   if (err) {
+      //     return reply(Boom.badData('Internal MongoDB error', err));
+      //   }
 
-        if (err) {
-          return reply(Boom.badData('Internal MongoDB error', err));
-        }
+      //   if (!doc) {
+      //     return reply(Boom.notFound());
+      //   }
 
-        if (!doc) {
-          return reply(Boom.notFound());
-        }
-
-        reply(doc);
-      });
+      //   reply(doc);
+      // });
     }
   });
 

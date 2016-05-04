@@ -7,10 +7,13 @@ var xray = new Xray({
   }
 });
 
-const sss = (ticker, expiration) => {
+// const tickerScrape = (ticker, expiration) => {
+const tickerScrape = (ticker) => {
+
+  var expiration = '1464307200';
   console.log(expiration);
 
-  xray(`http://finance.yahoo.com/q/op?s=${ticker}+Options&date=${expiration}`, {
+ return xray(`http://finance.yahoo.com/q/op?s=${ticker}+Options&date=${expiration}`, {
     stockLast: xray('.time_rtq_ticker span'),
     allExpiration: xray('.Start-0 option',
         [{
@@ -46,27 +49,35 @@ const sss = (ticker, expiration) => {
     ),
   })
   // .write('results.json');
-  (function(err, data) {
+  // .stream()
+  ((err, data) => {
     console.log('exp', expiration); // this works
     if (data) {
-      // return data;
-      console.log(data);
+      // console.log(data);
+      return data;
     } else {
+      return err;
       console.log(err);
     }
-  })
+  }).stream()
 };
 
 const loopExp = (ticker) => {
+  console.log('ticker', ticker);
   xray(`http://finance.yahoo.com/q/op?s=${ticker}+Options`, {
     allExpiration: xray('.Start-0 option',
       [{
         value: '@value'
       }])
-  })((err, obj) => {
+  })
+  ((err, obj) => {
     console.log(obj);
-    obj.allExpiration.map((res) => sss(ticker, res.value));
+    return obj.allExpiration.map((res) => tickerScrape(ticker, res.value));
   })
 };
-loopExp('FB');
+// loopExp('FB');
 
+module.exports = {
+  loopExp: loopExp,
+  tickerScrape: tickerScrape,
+};

@@ -3,7 +3,7 @@
 const Boom = require('boom');
 const uuid = require('node-uuid');
 const Joi = require('joi');
-const loopExp = require('../app').tickerScrape;
+const loopExp = require('../app').loopExp;
 var Xray = require("x-ray");
 var xray = new Xray();
 

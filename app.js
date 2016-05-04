@@ -7,10 +7,9 @@ var xray = new Xray({
   }
 });
 
-// const tickerScrape = (ticker, expiration) => {
-const tickerScrape = (ticker) => {
+const tickerScrape = (ticker, expiration) => {
+// const tickerScrape = (ticker) => {
 
-  var expiration = '1464307200';
   console.log(expiration);
 
  return xray(`http://finance.yahoo.com/q/op?s=${ticker}+Options&date=${expiration}`, {

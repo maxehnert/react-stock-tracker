@@ -4,6 +4,7 @@ const Boom = require('boom');
 const uuid = require('node-uuid');
 const Joi = require('joi');
 const loopExp = require('../app').loopExp;
+const tickerScrape = require('../app').tickerScrape;
 var Xray = require("x-ray");
 var xray = new Xray();
 
@@ -33,7 +34,8 @@ exports.register = function(server, options, next) {
     handler: function(request, reply) {
       console.log('asdf', request.params.id);
        reply (
-        loopExp(request.params.id)
+        // loopExp(request.params.id)
+        tickerScrape(request.params.id)
         );
       // stocks.findOne({
       //   _id: request.params.id
